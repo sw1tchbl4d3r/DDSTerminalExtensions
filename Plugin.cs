@@ -274,6 +274,16 @@ namespace DDSTerminalExtensions
             return true;
         }
 
+        [HarmonyPostfix]
+        [HarmonyPatch("Start")]
+        public static void StartPatch(Terminal __instance)
+        {
+            // TODO: find a stable source of the actual width required
+            __instance.inputField.caretWidth = 8;
+            __instance.inputField.customCaretColor = true;
+            __instance.inputField.caretColor = new Color(1, 1, 1, 0.4f);
+        }
+
         [HarmonyPrefix]
         [HarmonyPatch("GoBackInHistory")]
         public static bool GoBackInHistoryPatch(Terminal __instance)
@@ -350,15 +360,6 @@ namespace DDSTerminalExtensions
                 __instance.inputField.enabled = true;
                 __instance.inputField.Select();
                 __instance.inputField.ActivateInputField();
-
-                // NOTE: the original function is identical up to here
-                //       original forces MoveTextEnd, we don't do this anymore
-
-                // TODO: do this on object init somehow not on every update
-                // TODO: find a stable source of the actual width required
-                __instance.inputField.caretWidth = 8;
-                __instance.inputField.customCaretColor = true;
-                __instance.inputField.caretColor = new Color(1, 1, 1, 0.4f);
             }
             else
                 __instance.inputField.DeactivateInputField();
