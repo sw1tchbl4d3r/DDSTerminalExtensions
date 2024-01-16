@@ -274,6 +274,60 @@ namespace DDSTerminalExtensions
             return true;
         }
 
+        [HarmonyPrefix]
+        [HarmonyPatch("GoBackInHistory")]
+        public static bool GoBackInHistoryPatch(Terminal __instance)
+        {
+            var traverse = Traverse.Create(__instance);
+            int input_history_index = traverse.Field("inputHistoryIndex").GetValue() as int? ?? 0;
+            List<string> input_history = traverse.Field("inputHistory").GetValue() as List<string>;
+
+            if (input_history_index > 0)
+            {
+                input_history_index--;
+
+                if (input_history_index < input_history.Count)
+                    __instance.inputField.text = input_history[input_history_index];
+            }
+            else
+            {
+                input_history_index = -1;
+                __instance.inputField.text = "";
+            }
+
+            __instance.inputField.caretPosition = __instance.inputField.text.Length;
+
+            traverse.Field("inputHistoryIndex").SetValue(input_history_index);
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch("GoForwardInHistory")]
+        public static bool GoForwardInHistoryPatch(Terminal __instance)
+        {
+            var traverse = Traverse.Create(__instance);
+            int input_history_index = traverse.Field("inputHistoryIndex").GetValue() as int? ?? 0;
+            List<string> input_history = traverse.Field("inputHistory").GetValue() as List<string>;
+
+            if (input_history_index < input_history.Count - 1)
+            {
+                input_history_index++;
+
+                if (input_history_index < input_history.Count)
+                    __instance.inputField.text = input_history[input_history_index];
+            }
+            else
+            {
+                input_history_index = input_history.Count;
+                __instance.inputField.text = "";
+            }
+
+            __instance.inputField.caretPosition = __instance.inputField.text.Length;
+
+            traverse.Field("inputHistoryIndex").SetValue(input_history_index);
+            return false;
+        }
+
         [HarmonyPostfix]
         [HarmonyPatch("Update")]
         public static void UpdatePatch(Terminal __instance)
@@ -305,8 +359,6 @@ namespace DDSTerminalExtensions
                 __instance.inputField.caretWidth = 8;
                 __instance.inputField.customCaretColor = true;
                 __instance.inputField.caretColor = new Color(1, 1, 1, 0.4f);
-
-                // TODO: make this work with history
             }
             else
                 __instance.inputField.DeactivateInputField();
