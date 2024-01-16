@@ -278,8 +278,13 @@ namespace DDSTerminalExtensions
         [HarmonyPatch("Start")]
         public static void StartPatch(Terminal __instance)
         {
-            // TODO: find a stable source of the actual width required
-            __instance.inputField.caretWidth = 8;
+            int font_size = __instance.inputField.textComponent.fontSize;
+            FontStyle font_style = __instance.inputField.textComponent.fontStyle;
+
+            __instance.inputField.textComponent.font.RequestCharactersInTexture("x", font_size, font_style);
+            __instance.inputField.textComponent.font.GetCharacterInfo('x', out CharacterInfo character_info, font_size);
+
+            __instance.inputField.caretWidth = character_info.advance;
             __instance.inputField.customCaretColor = true;
             __instance.inputField.caretColor = new Color(1, 1, 1, 0.4f);
         }
