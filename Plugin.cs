@@ -69,10 +69,10 @@ namespace DDSTerminalExtensions
             help_ext += "--------------------\n";
             help_ext += "Commands added by the DDSTerminalExtensions mod.\n";
             help_ext += "--------------------\n";
-            help_ext += "AK_DUMP_MAP_ <FILENAME> -- dumps current scene's map\n";
-            help_ext += "AK_COORDS_COMPUTER_ [COMPUTER_ID] -- gets coordinates of computer\n";
-            help_ext += "AK_COORDS_PLAYER_ -- gets coordinates of the player\n";
-            help_ext += "AK_TELEPORT_ [x] [y] -- teleports player to x, y\n";
+            help_ext += "DUMP_MAP_ <FILENAME> -- dumps current scene's map\n";
+            help_ext += "COORDS_COMPUTER_ [COMPUTER_ID] -- gets coordinates of computer\n";
+            help_ext += "COORDS_PLAYER_ -- gets coordinates of the player\n";
+            help_ext += "TELEPORT_ [x] [y] -- teleports player to x, y\n";
 
             __instance.WriteToTerminal(help_ext);
         }
@@ -256,10 +256,10 @@ namespace DDSTerminalExtensions
             {"he", HelpExt},
             {"helpext", HelpExt},
 
-            {"ak_dump_map_", DumpMap},
-            {"ak_coords_computer_", GetCoordsComputer},
-            {"ak_coords_player_", GetCoordsPlayer},
-            {"ak_teleport_", Teleport},
+            {"dump_map_", DumpMap},
+            {"coords_computer_", GetCoordsComputer},
+            {"coords_player_", GetCoordsPlayer},
+            {"teleport_", Teleport},
 
             // COMMAND OVERRIDES
             {"help", HelpGeneral},
