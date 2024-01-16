@@ -276,7 +276,7 @@ namespace DDSTerminalExtensions
 
         [HarmonyPostfix]
         [HarmonyPatch("Start")]
-        public static void StartPatch(Terminal __instance)
+        public static void StartPost(Terminal __instance)
         {
             int font_size = __instance.inputField.textComponent.fontSize;
             FontStyle font_style = __instance.inputField.textComponent.fontStyle;
@@ -345,7 +345,7 @@ namespace DDSTerminalExtensions
 
         [HarmonyPostfix]
         [HarmonyPatch("Update")]
-        public static void UpdatePatch(Terminal __instance)
+        public static void UpdatePost(Terminal __instance)
         {
             var traverse = Traverse.Create(__instance);
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
