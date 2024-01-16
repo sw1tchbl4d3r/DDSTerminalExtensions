@@ -342,8 +342,14 @@ namespace DDSTerminalExtensions
         [HarmonyPatch("Update")]
         public static void UpdatePatch(Terminal __instance)
         {
+            var traverse = Traverse.Create(__instance);
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+            {
                 __instance.inputField.text = "";
+
+                List<string> input_history = traverse.Field("inputHistory").GetValue() as List<string>;
+                traverse.Field("inputHistoryIndex").SetValue(input_history.Count);
+            }
         }
 
         [HarmonyPrefix]
