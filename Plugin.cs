@@ -42,45 +42,45 @@ namespace DDSTerminalExtensions
 
         public static void HelpSecret(Terminal __instance, string[] args)
         {
-            string help_secret = "\n";
-            help_secret += "SECRET COMMANDS\n";
-            help_secret += "--------------------\n";
-            help_secret += "Hidden commands built into the game.\n";
-            help_secret += "--------------------\n";
-            help_secret += "RENAME_ME [NEW_NAME] -- renames the save/player\n";
-            help_secret += "CHIPS_ -- gain 100 chips\n";
-            help_secret += "DATUM_ -- gain 10 data\n";
-            help_secret += "GODD_ -- enables godmode (until new scene)\n";
-            help_secret += "GO_TO_SCENE_ [SCENE_NAME] -- loads given unity scene\n";
-            help_secret += "HAVE_SEX_ -- uh\n";
-            help_secret += "LOCKTOBER_ -- force unequip necklace\n";
-            help_secret += "MIDAS_ -- gain $100,000\n";
-            help_secret += "MOB_ -- gain 100 ego\n";
-            help_secret += "SKIPP_ -- skips current mission\n";
-            help_secret += "SPEND_ -- set spending level to 8 (WILL override level 9)\n";
+            string helpSecret = "\n";
+            helpSecret += "SECRET COMMANDS\n";
+            helpSecret += "--------------------\n";
+            helpSecret += "Hidden commands built into the game.\n";
+            helpSecret += "--------------------\n";
+            helpSecret += "RENAME_ME [NEW_NAME] -- renames the save/player\n";
+            helpSecret += "CHIPS_ -- gain 100 chips\n";
+            helpSecret += "DATUM_ -- gain 10 data\n";
+            helpSecret += "GODD_ -- enables godmode (until new scene)\n";
+            helpSecret += "GO_TO_SCENE_ [SCENE_NAME] -- loads given unity scene\n";
+            helpSecret += "HAVE_SEX_ -- uh\n";
+            helpSecret += "LOCKTOBER_ -- force unequip necklace\n";
+            helpSecret += "MIDAS_ -- gain $100,000\n";
+            helpSecret += "MOB_ -- gain 100 ego\n";
+            helpSecret += "SKIPP_ -- skips current mission\n";
+            helpSecret += "SPEND_ -- set spending level to 8 (WILL override level 9)\n";
 
-            __instance.WriteToTerminal(help_secret);
+            __instance.WriteToTerminal(helpSecret);
         }
 
         public static void HelpExt(Terminal __instance, string[] args)
         {
-            string help_ext = "\n";
-            help_ext += "TERMINALEXTENSIONS COMMANDS\n";
-            help_ext += "--------------------\n";
-            help_ext += "Commands added by the DDSTerminalExtensions mod.\n";
-            help_ext += "--------------------\n";
-            help_ext += "DUMP_MAP_ <FILENAME> -- dumps current scene's map\n";
-            help_ext += "COORDS_COMPUTER_ [COMPUTER_ID] -- gets coordinates of computer\n";
-            help_ext += "COORDS_PLAYER_ -- gets coordinates of the player\n";
-            help_ext += "TELEPORT_ [x] [y] -- teleports player to x, y\n";
+            string helpExt = "\n";
+            helpExt += "TERMINALEXTENSIONS COMMANDS\n";
+            helpExt += "--------------------\n";
+            helpExt += "Commands added by the DDSTerminalExtensions mod.\n";
+            helpExt += "--------------------\n";
+            helpExt += "DUMP_MAP_ <FILENAME> -- dumps current scene's map\n";
+            helpExt += "COORDS_COMPUTER_ [COMPUTER_ID] -- gets coordinates of computer\n";
+            helpExt += "COORDS_PLAYER_ -- gets coordinates of the player\n";
+            helpExt += "TELEPORT_ [X] [Y] -- teleports player to x, y\n";
 
-            __instance.WriteToTerminal(help_ext);
+            __instance.WriteToTerminal(helpExt);
         }
 
         public static GameObject GetPlayerCyborg()
         {
-            GameObject[] all_objects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-            foreach (GameObject obj in all_objects)
+            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+            foreach (GameObject obj in allObjects)
             {
                 if (obj.name == "PlayerCyborg")
                     return obj;
@@ -88,7 +88,7 @@ namespace DDSTerminalExtensions
             return null;
         }
 
-        public static readonly Dictionary<string, string> texture_lookup = new()
+        public static readonly Dictionary<string, string> textureLookup = new()
         {
             {"Vidya", "obj/gamer_station"},
             {"fridge", "obj/fridge"},
@@ -111,8 +111,6 @@ namespace DDSTerminalExtensions
 
             __instance.WriteToTerminal("Starting map dump...");
 
-            GameObject[] all_objects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-
             var sr = File.CreateText(filename);
             sr.NewLine = "\n";
 
@@ -121,7 +119,8 @@ namespace DDSTerminalExtensions
             sr.WriteLine($"cam_start: 0, 0");
             sr.WriteLine($"");
 
-            foreach (GameObject obj in all_objects)
+            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+            foreach (GameObject obj in allObjects)
             {
                 Computer computer = obj.GetComponent<Computer>();
                 if (computer != null)
@@ -132,23 +131,23 @@ namespace DDSTerminalExtensions
                     sr.WriteLine($"OBJ");
                     sr.WriteLine($"name: {computer.computerID}");
                     sr.WriteLine($"position: {Math.Round(obj.transform.position.x, 4)}, {Math.Round(obj.transform.position.y, 4)}");
-                    sr.WriteLine($"texture_name: {texture_lookup.Get(computer.displaySprite.name, computer.displaySprite.name)}");
+                    sr.WriteLine($"texture_name: {textureLookup.Get(computer.displaySprite.name, computer.displaySprite.name)}");
                     sr.WriteLine($"color: #{ColorUtility.ToHtmlStringRGB(computer.displayColor)}");
                     sr.WriteLine($"");
                 }
 
-                bool is_door = obj.GetComponent<Door>() != null;
-                if (obj.tag == "Wall" || is_door)
+                bool isDoor = obj.GetComponent<Door>() != null;
+                if (obj.tag == "Wall" || isDoor)
                 {
                     sr.WriteLine($"WALL");
 
-                    if (is_door)
+                    if (isDoor)
                         sr.WriteLine($"type: door");
 
                     sr.WriteLine($"position: {Math.Round(obj.transform.position.x, 4)}, {Math.Round(obj.transform.position.y, 4)}");
 
                     Vector3 scale = obj.transform.lossyScale;
-                    if (is_door)
+                    if (isDoor)
                     {
                         for (int i = 0; i < obj.transform.childCount; i++)
                         {
@@ -189,23 +188,23 @@ namespace DDSTerminalExtensions
 
         public static void GetCoordsComputer(Terminal __instance, string[] args)
         {
-            string computer_id;
+            string computerID;
 
             if (args.Length > 1)
-                computer_id = args[1];
+                computerID = args[1];
             else
             {
                 __instance.WriteToTerminal("Please specify target computer name.");
                 return;
             }
 
-            GameObject[] all_objects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-            foreach (GameObject obj in all_objects)
+            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+            foreach (GameObject obj in allObjects)
             {
                 Computer computer = obj.GetComponent<Computer>();
                 if (computer != null)
                 {
-                    if (computer.computerID == computer_id)
+                    if (computer.computerID == computerID)
                         __instance.WriteToTerminal($"{computer.computerID} -- {obj.transform.position.x}, {obj.transform.position.y}");
                 }
             }
@@ -249,7 +248,7 @@ namespace DDSTerminalExtensions
         }
 
         public delegate void Command(Terminal __instance, string[] args);
-        public static readonly Dictionary<string, Command> command_lookup = new()
+        public static readonly Dictionary<string, Command> commandLookup = new()
         {
             {"hs", HelpSecret},
             {"helpsecret", HelpSecret},
@@ -269,8 +268,8 @@ namespace DDSTerminalExtensions
         [HarmonyPatch("ProcessInput")]
         public static bool ProcessInputPatch(Terminal __instance, string input)
         {
-            string[] cmd_array = input.ToLower().Split(' ');
-            command_lookup.Get(cmd_array[0])?.Invoke(__instance, cmd_array);
+            string[] cmdArray = input.ToLower().Split(' ');
+            commandLookup.Get(cmdArray[0])?.Invoke(__instance, cmdArray);
             return true;
         }
 
@@ -278,13 +277,13 @@ namespace DDSTerminalExtensions
         [HarmonyPatch("Start")]
         public static void StartPost(Terminal __instance)
         {
-            int font_size = __instance.inputField.textComponent.fontSize;
-            FontStyle font_style = __instance.inputField.textComponent.fontStyle;
+            int fontSize = __instance.inputField.textComponent.fontSize;
+            FontStyle fontStyle = __instance.inputField.textComponent.fontStyle;
 
-            __instance.inputField.textComponent.font.RequestCharactersInTexture("x", font_size, font_style);
-            __instance.inputField.textComponent.font.GetCharacterInfo('x', out CharacterInfo character_info, font_size);
+            __instance.inputField.textComponent.font.RequestCharactersInTexture("x", fontSize, fontStyle);
+            __instance.inputField.textComponent.font.GetCharacterInfo('x', out CharacterInfo characterInfo, fontSize);
 
-            __instance.inputField.caretWidth = character_info.advance;
+            __instance.inputField.caretWidth = characterInfo.advance;
             __instance.inputField.customCaretColor = true;
             __instance.inputField.caretColor = new Color(1, 1, 1, 0.4f);
         }
@@ -294,25 +293,25 @@ namespace DDSTerminalExtensions
         public static bool GoBackInHistoryPatch(Terminal __instance)
         {
             var traverse = Traverse.Create(__instance);
-            int input_history_index = traverse.Field("inputHistoryIndex").GetValue() as int? ?? 0;
-            List<string> input_history = traverse.Field("inputHistory").GetValue() as List<string>;
+            int inputHistoryIndex = traverse.Field("inputHistoryIndex").GetValue() as int? ?? 0;
+            List<string> inputHistory = traverse.Field("inputHistory").GetValue() as List<string>;
 
-            if (input_history_index > 0)
+            if (inputHistoryIndex > 0)
             {
-                input_history_index--;
+                inputHistoryIndex--;
 
-                if (input_history_index < input_history.Count)
-                    __instance.inputField.text = input_history[input_history_index];
+                if (inputHistoryIndex < inputHistory.Count)
+                    __instance.inputField.text = inputHistory[inputHistoryIndex];
             }
             else
             {
-                input_history_index = -1;
+                inputHistoryIndex = -1;
                 __instance.inputField.text = "";
             }
 
             __instance.inputField.caretPosition = __instance.inputField.text.Length;
 
-            traverse.Field("inputHistoryIndex").SetValue(input_history_index);
+            traverse.Field("inputHistoryIndex").SetValue(inputHistoryIndex);
             return false;
         }
 
@@ -321,25 +320,25 @@ namespace DDSTerminalExtensions
         public static bool GoForwardInHistoryPatch(Terminal __instance)
         {
             var traverse = Traverse.Create(__instance);
-            int input_history_index = traverse.Field("inputHistoryIndex").GetValue() as int? ?? 0;
-            List<string> input_history = traverse.Field("inputHistory").GetValue() as List<string>;
+            int inputHistoryIndex = traverse.Field("inputHistoryIndex").GetValue() as int? ?? 0;
+            List<string> inputHistory = traverse.Field("inputHistory").GetValue() as List<string>;
 
-            if (input_history_index < input_history.Count - 1)
+            if (inputHistoryIndex < inputHistory.Count - 1)
             {
-                input_history_index++;
+                inputHistoryIndex++;
 
-                if (input_history_index < input_history.Count)
-                    __instance.inputField.text = input_history[input_history_index];
+                if (inputHistoryIndex < inputHistory.Count)
+                    __instance.inputField.text = inputHistory[inputHistoryIndex];
             }
             else
             {
-                input_history_index = input_history.Count;
+                inputHistoryIndex = inputHistory.Count;
                 __instance.inputField.text = "";
             }
 
             __instance.inputField.caretPosition = __instance.inputField.text.Length;
 
-            traverse.Field("inputHistoryIndex").SetValue(input_history_index);
+            traverse.Field("inputHistoryIndex").SetValue(inputHistoryIndex);
             return false;
         }
 
@@ -352,8 +351,8 @@ namespace DDSTerminalExtensions
             {
                 __instance.inputField.text = "";
 
-                List<string> input_history = traverse.Field("inputHistory").GetValue() as List<string>;
-                traverse.Field("inputHistoryIndex").SetValue(input_history.Count);
+                List<string> inputHistory = traverse.Field("inputHistory").GetValue() as List<string>;
+                traverse.Field("inputHistoryIndex").SetValue(inputHistory.Count);
             }
         }
 
@@ -362,10 +361,10 @@ namespace DDSTerminalExtensions
         public static bool LateUpdatePatch(Terminal __instance)
         {
             var traverse = Traverse.Create(__instance);
-            bool input_field_active = traverse.Field("inputFieldActive").GetValue() as bool? ?? false;
-            bool hacking_open = (traverse.Field("hackManager").GetValue() as HackManager).hackingOpen;
+            bool inputFieldActive = traverse.Field("inputFieldActive").GetValue() as bool? ?? false;
+            bool hackingOpen = (traverse.Field("hackManager").GetValue() as HackManager).hackingOpen;
 
-            if (input_field_active && hacking_open)
+            if (inputFieldActive && hackingOpen)
             {
                 traverse.Field("savedInput").SetValue(__instance.inputField.text);
                 __instance.inputField.enabled = true;
