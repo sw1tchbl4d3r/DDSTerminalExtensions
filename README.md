@@ -23,7 +23,7 @@ On Windows, download [BepInEx5](https://github.com/BepInEx/BepInEx/releases/tag/
 Make sure the `BepInEx` folder and the game executable `DeadeyeDeepfakeSimulacrum.exe` are sharing the same folder.
 
 Launch the game once until the main menu is visible, then close it again.
-A `plugins` folder should have appeared in the `BepInEx` folder, drag the `DDSTerminalExtension.dll` into this directory.
+A `plugins` folder should have appeared in the `BepInEx` folder, drag the [`DDSTerminalExtension.dll`](https://github.com/sw1tchbl4d3r/DDSTerminalExtensions/releases) into this directory.
 
 And that's it! Verify the mod is running by using the `help` command.
 
