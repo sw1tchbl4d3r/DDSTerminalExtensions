@@ -77,17 +77,6 @@ namespace DDSTerminalExtensions
             __instance.WriteToTerminal(helpExt);
         }
 
-        public static GameObject GetPlayerCyborg()
-        {
-            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-            foreach (GameObject obj in allObjects)
-            {
-                if (obj.name == "PlayerCyborg")
-                    return obj;
-            }
-            return null;
-        }
-
         public static readonly Dictionary<string, string> textureLookup = new()
         {
             {"Vidya", "obj/gamer_station"},
@@ -212,11 +201,8 @@ namespace DDSTerminalExtensions
 
         public static void GetCoordsPlayer(Terminal __instance, string[] args)
         {
-            GameObject player = GetPlayerCyborg();
-            if (player)
-                __instance.WriteToTerminal($"Player is at {player.transform.position.x} {player.transform.position.y}");
-            else
-                __instance.WriteToTerminal($"Player not found (???)");
+            GameObject player = __instance.playerCyborg.gameObject;
+            __instance.WriteToTerminal($"player -- {player.transform.position.x}, {player.transform.position.y}");
         }
 
         public static void Teleport(Terminal __instance, string[] args)
@@ -242,9 +228,8 @@ namespace DDSTerminalExtensions
                 return;
             }
 
-            GameObject player = GetPlayerCyborg();
-            if (player)
-                player.transform.position = new Vector3(x, y, player.transform.position.z);
+            GameObject player = __instance.playerCyborg.gameObject;
+            player.transform.position = new Vector3(x, y, player.transform.position.z);
         }
 
         public delegate void Command(Terminal __instance, string[] args);
