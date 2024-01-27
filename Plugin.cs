@@ -70,6 +70,7 @@ namespace DDSTerminalExtensions
             helpExt += "Commands added by the DDSTerminalExtensions mod.\n";
             helpExt += "--------------------\n";
             helpExt += "DUMP_MAP_ <FILENAME> -- dumps current scene's map\n";
+            helpExt += "UNGODD_ -- disables godmode\n";
             helpExt += "COORDS_COMPUTER_ [COMPUTER_ID] -- gets coordinates of computer\n";
             helpExt += "COORDS_PLAYER_ -- gets coordinates of the player\n";
             helpExt += "TELEPORT_ [X] [Y] -- teleports player to x, y\n";
@@ -205,6 +206,11 @@ namespace DDSTerminalExtensions
             __instance.WriteToTerminal($"player -- {player.transform.position.x}, {player.transform.position.y}");
         }
 
+        public static void UnGod(Terminal __instance, string[] args)
+        {
+            __instance.playerCyborg.godMode = 0;
+        }
+
         public static void Teleport(Terminal __instance, string[] args)
         {
             float x, y;
@@ -243,6 +249,7 @@ namespace DDSTerminalExtensions
             {"dump_map_", DumpMap},
             {"coords_computer_", GetCoordsComputer},
             {"coords_player_", GetCoordsPlayer},
+            {"ungodd_", UnGod},
             {"teleport_", Teleport},
 
             // COMMAND OVERRIDES
