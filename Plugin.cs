@@ -21,10 +21,18 @@ namespace DDSTerminalExtensions
         private void Awake()
         {
             Log = Logger;
-            Log.LogInfo($"Plugin is loaded!");
+            Log.LogInfo($"Loading plugin...");
 
-            Harmony.CreateAndPatchAll(typeof(TerminalPatches));
+            Harmony.CreateAndPatchAll(typeof(TerminalPatches), $"{PluginInfo.PLUGIN_GUID}.TerminalPatches");
             Log.LogInfo($"Harmony patches are loaded!");
+        }
+
+        private void OnDestroy()
+        {
+            Log.LogInfo($"Unloading plugin...");
+            Harmony.UnpatchID($"{PluginInfo.PLUGIN_GUID}.TerminalPatches");
+
+            Log.LogInfo($"Plugin has been destroyed, goodbye!");
         }
     }
 
