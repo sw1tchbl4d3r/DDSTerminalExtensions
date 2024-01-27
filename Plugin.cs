@@ -12,7 +12,7 @@ using UnityEngine.UIElements.Collections;
 
 namespace DDSTerminalExtensions
 {
-    [BepInPlugin("sw1tchbl4d3.DDSTerminalExtensions", "DDSTerminalExtensions", PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInProcess("DeadeyeDeepfakeSimulacrum.exe")]
     public class Plugin : BaseUnityPlugin
     {

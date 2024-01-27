@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>DDSTerminalExtensions</AssemblyName>
+    <AssemblyName>sw1tchbl4d3.DDSTerminalExtensions</AssemblyName>
+    <Product>DDSTerminalExtensions</Product>
     <Description>Fixes some terminal issues and adds commands to DDS.</Description>
     <Version>0.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
